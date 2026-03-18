@@ -15,7 +15,7 @@ export default function Footer(props) {
     parseInt(since) < currentYear ? since + '-' + currentYear : currentYear
 
   return (
-    <footer className='relative w-full bg-black px-6 border-t'>
+    <footer className='relative w-full bg-black px-6 border-t border-gray-700'>
       <DarkModeButton className='text-center pt-4' />
 
       <div className='text-[#0D0D0D] container mx-auto max-w-4xl py-6 md:flex flex-wrap md:flex-no-wrap md:justify-between items-center text-base'>
