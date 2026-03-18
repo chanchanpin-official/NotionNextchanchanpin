@@ -18,12 +18,12 @@ export default function Footer(props) {
     <footer className='relative w-full bg-black px-6 border-t'>
       <DarkModeButton className='text-center pt-4' />
 
-      <div className='text-yellow-300 container mx-auto max-w-4xl py-6 md:flex flex-wrap md:flex-no-wrap md:justify-between items-center text-sm'>
+      <div className='text-[#0D0D0D] container mx-auto max-w-4xl py-6 md:flex flex-wrap md:flex-no-wrap md:justify-between items-center text-base'>
         <div className='text-center'>
-          &copy;{`${copyrightDate}`} {siteConfig('AUTHOR')}. All rights
+          &copy;{`${copyrightDate}`} <span className='text-[#808080]'>{siteConfig('AUTHOR')}</span>. All rights
           reserved.
         </div>
-        <div className='md:p-0 text-center md:text-right text-xs'>
+        <div className='md:p-0 text-center md:text-right text-base'>
           {/* 右侧链接 */}
           {/* <a href="#" className="text-black no-underline hover:underline">Privacy Policy</a> */}
           {siteConfig('BEI_AN') && (
