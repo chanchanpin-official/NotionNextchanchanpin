@@ -29,7 +29,7 @@ export default function Footer(props) {
           {siteConfig('BEI_AN') && (
             <a
               href={siteConfig('BEI_AN_LINK')}
-              className='no-underline hover:underline ml-4'>
+              className='no-underline hover:underline ml-2'>
               {siteConfig('BEI_AN')}
             </a>
           )}
