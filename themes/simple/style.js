@@ -23,7 +23,7 @@ const Style = () => {
   }
   
   #theme-simple .blog-item-title {
-    color: #276077;
+    color: var(--notion-blue);
   }
   
   .dark #theme-simple .blog-item-title {
@@ -52,8 +52,6 @@ const Style = () => {
       cursor: pointer;
   }
   
-  
-
   `}</style>
 }
 
