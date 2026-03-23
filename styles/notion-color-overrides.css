@@ -1,0 +1,11 @@
+:root {
+  /* 覆盖默认 notion 文字色，避免直接改 styles/notion.css 引发合并冲突 */
+  --notion-red: rgb(199, 83, 83);
+  --notion-pink: rgb(199, 83, 157);
+  --notion-blue: rgb(83, 125, 199); /* #537DC7 */
+  --notion-purple: rgb(129, 83, 199);
+  --notion-teal: rgb(83, 199, 157);
+  --notion-yellow: rgb(199, 167, 83);
+  --notion-orange: rgb(199, 125, 83);
+  --notion-brown: rgb(155, 117, 83);
+}
