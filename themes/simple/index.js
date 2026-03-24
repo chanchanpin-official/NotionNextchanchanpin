@@ -82,6 +82,9 @@ const LayoutBase = props => {
     CONFIG
   )
   const isHomePage = router.pathname === '/'
+  const isDetailPage =
+    router.pathname === '/[prefix]/[slug]' ||
+    router.pathname === '/[prefix]/[slug]/[...suffix]'
   const shouldShowRightSidebar =
     !fullWidth &&
     (!onlyShowRightSidebarOnHome || isHomePage) &&
@@ -111,7 +114,7 @@ const LayoutBase = props => {
               : '') +
               ` w-full flex-1 flex items-start ${
                 shouldShowRightSidebar ? 'max-w-9/10' : 'max-w-full'
-              } mx-auto pt-12`
+              } mx-auto ${isDetailPage ? 'pt-0' : 'pt-12'}`
           }>
           <div id='container-inner ' className='w-full flex-grow min-h-fit'>
             <Transition
@@ -239,6 +242,25 @@ const LayoutArchive = props => {
 const LayoutSlug = props => {
   const { post, lock, validPassword, prev, next, recommendPosts } = props
   const { fullWidth } = useGlobal()
+
+  useEffect(() => {
+    if (!post || lock || !isBrowser) return
+
+    const scrollToSubmenu = () => {
+      const navElement =
+        document.getElementById('nav-bar-inner') ||
+        document.querySelector('#theme-simple nav')
+
+      if (!navElement) return
+
+      const top =
+        navElement.getBoundingClientRect().top + window.pageYOffset
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+
+    const timer = window.setTimeout(scrollToSubmenu, 120)
+    return () => window.clearTimeout(timer)
+  }, [post, lock])
 
   return (
     <>
