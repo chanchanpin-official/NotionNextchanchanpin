@@ -20,11 +20,11 @@ export default function ArticleInfo (props) {
   const useTitleCover = titleCoverEnabled && Boolean(titleCover)
 
   return (
-        <section className='mt-2 text-gray-600 dark:text-gray-400 leading-8'>
+        <section className={`${useTitleCover ? 'mt-0' : 'mt-2'} text-gray-600 dark:text-gray-400 leading-8`}>
             <div
                 className={`${
                   useTitleCover
-                    ? 'relative overflow-hidden rounded-xl p-8 md:p-10 mb-6'
+                    ? 'relative overflow-hidden w-screen left-1/2 right-1/2 -translate-x-1/2 h-80 rounded-none p-8 md:p-10 mb-0'
                     : ''
                 }`}>
                 {useTitleCover && (
@@ -46,7 +46,7 @@ export default function ArticleInfo (props) {
                 </h2>
             </div>
 
-            <div className='flex flex-wrap text-gray-700 dark:text-gray-300'>
+            <div className={`flex flex-wrap text-gray-700 dark:text-gray-300 ${useTitleCover ? 'mt-4' : ''}`}>
                 {post?.type !== 'Page' && (
                     <div className="space-x-3 mr-4">
                         <span> <i className="fa-regular fa-user"></i> <a href={siteConfig('SIMPLE_AUTHOR_LINK', null, CONFIG)}>{siteConfig('AUTHOR')}</a></span>
