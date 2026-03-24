@@ -15,6 +15,7 @@ RUN yarn install --frozen-lockfile
 FROM base AS builder
 ARG NOTION_PAGE_ID
 ENV NEXT_BUILD_STANDALONE=true
+ENV NEXT_PUBLIC_SIMPLE_POST_TITLE_COVER_ENABLE=true
 
 WORKDIR /app
 
@@ -25,6 +26,7 @@ RUN yarn build
 # 3. Production image, copy all the files and run next
 FROM base AS runner
 ENV NODE_ENV=production
+ENV NEXT_PUBLIC_SIMPLE_POST_TITLE_COVER_ENABLE=true
 
 WORKDIR /app
 
