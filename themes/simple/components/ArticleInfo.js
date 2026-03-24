@@ -16,8 +16,8 @@ export default function ArticleInfo (props) {
 
   const { locale } = useGlobal()
   const titleCover = post?.pageCover || post?.pageCoverThumbnail
-  // 写死：只要文章存在 cover，就展示标题封面（不走变量开关判断）
-  const useTitleCover = Boolean(titleCover)
+  const useTitleCover =
+    siteConfig('SIMPLE_POST_TITLE_COVER_ENABLE', false, CONFIG) && Boolean(titleCover)
 
   return (
         <section className='mt-2 text-gray-600 dark:text-gray-400 leading-8'>
