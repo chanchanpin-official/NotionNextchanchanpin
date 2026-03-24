@@ -1,5 +1,6 @@
 import SmartLink from '@/components/SmartLink'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Collapse from './Collapse'
 
 /**
@@ -9,8 +10,51 @@ import Collapse from './Collapse'
  */
 export const MenuItem = ({ link }) => {
   link.selected = true
+  const router = useRouter()
+  const activeSubMenuRef = useRef(null)
 
-  const [isOpen, changeIsOpen] = useState(link?.selected)
+  const currentPath = useMemo(() => {
+    if (!router?.asPath) {
+      return ''
+    }
+    return router.asPath.split('?')[0].split('#')[0]
+  }, [router?.asPath])
+
+  const hasMatchedSubMenu = useMemo(() => {
+    if (!link?.subMenus?.length || !currentPath) {
+      return false
+    }
+    return link.subMenus.some(sLink => {
+      const subMenuPath = (sLink?.href || '').split('?')[0].split('#')[0]
+      return Boolean(subMenuPath) && subMenuPath === currentPath
+    })
+  }, [link?.subMenus, currentPath])
+
+  const [isOpen, changeIsOpen] = useState(link?.selected || hasMatchedSubMenu)
+
+  useEffect(() => {
+    if (hasMatchedSubMenu) {
+      changeIsOpen(true)
+    }
+  }, [hasMatchedSubMenu])
+
+  useEffect(() => {
+    if (!hasMatchedSubMenu || !activeSubMenuRef.current) {
+      return
+    }
+
+    const menuContainer = activeSubMenuRef.current.closest('.main-menu')
+    if (!menuContainer) {
+      return
+    }
+
+    const targetOffsetTop =
+      activeSubMenuRef.current.offsetTop - menuContainer.offsetTop
+    menuContainer.scrollTo({
+      top: Math.max(targetOffsetTop - 20, 0),
+      behavior: 'smooth'
+    })
+  }, [hasMatchedSubMenu, currentPath])
 
   const toggleOpenSubMenu = () => {
     changeIsOpen(!isOpen)
@@ -61,8 +105,13 @@ export const MenuItem = ({ link }) => {
             // #号加标题  快速跳转到指定锚点
             const sIsAnchor = sLink?.href === '#'
             const sUrl = sIsAnchor ? `#${sLink.name}` : sLink.href
+            const sPath = (sLink?.href || '').split('?')[0].split('#')[0]
+            const isCurrentSubMenu = Boolean(sPath) && sPath === currentPath
             return (
-              <div key={index} className='nav-submenu'>
+              <div
+                key={index}
+                ref={isCurrentSubMenu ? activeSubMenuRef : null}
+                className='nav-submenu'>
                 <SmartLink href={sUrl}>
                   <span className='dark:text-neutral-400 text-gray-500 hover:text-black dark:hover:text-white text-xs font-bold'>
                     <i
