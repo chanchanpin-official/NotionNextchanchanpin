@@ -214,7 +214,7 @@ export default function HomeInterdisciplinary(props) {
   ].filter(item => item.node)
 
   return (
-    <section className='w-full bg-[#ececec] border-t border-[#d8dce2] mb-10'>
+    <section className='w-full bg-[#FAFAFA] border-t border-[#edf0f3] mb-10'>
       <div className='mx-auto max-w-[1700px] px-4 md:px-10 py-10 md:py-16'>
         <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
           <div className='relative h-[620px] md:h-[760px]'>
