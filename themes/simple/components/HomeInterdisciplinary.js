@@ -154,9 +154,7 @@ export default function HomeInterdisciplinary(props) {
     CONFIG
   )
   const introTitle = siteConfig('AUTHOR')
-  const introBody =
-    siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG) ||
-    siteConfig('SIMPLE_LOGO_DESCRIPTION', null, CONFIG)
+  const introBody = siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG)
   const leftPng = siteConfig('SIMPLE_HOME_LEFT_PNG', null, CONFIG)
   const bottomPng = siteConfig('SIMPLE_HOME_BOTTOM_PNG', null, CONFIG)
   const mapFontSize = Number(siteConfig('SIMPLE_HOME_MAP_FONT_SIZE', null, CONFIG)) || 18
@@ -222,8 +220,8 @@ export default function HomeInterdisciplinary(props) {
   ].filter(item => item.node)
 
   return (
-    <section className='w-full bg-[#FAFAFA] border-t border-[#edf0f3] mb-10'>
-      <div className='mx-auto max-w-[1700px] px-4 md:px-10 py-10 md:py-16'>
+    <section className='relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FAFAFA] border-t border-[#edf0f3] mb-10'>
+      <div className='mx-auto max-w-[1700px] px-0 md:px-0 py-10 md:py-16'>
         <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
           <div className='relative h-[620px] md:h-[760px]'>
             {leftPng ? (
@@ -330,11 +328,13 @@ export default function HomeInterdisciplinary(props) {
               style={{ fontSize: `${titleFontSize}px` }}>
               {introTitle}
             </h1>
-            <div
-              className='text-black/90 leading-[1.8]'
-              style={{ fontSize: `${bodyFontSize}px` }}
-              dangerouslySetInnerHTML={{ __html: introBody }}
-            />
+            {introBody && (
+              <div
+                className='text-black/90 leading-[1.8]'
+                style={{ fontSize: `${bodyFontSize}px` }}
+                dangerouslySetInnerHTML={{ __html: introBody }}
+              />
+            )}
             {siteConfig('BIO') && (
               <p
                 className='text-black/70 leading-[1.7]'

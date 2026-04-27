@@ -85,9 +85,15 @@ const LayoutBase = props => {
     null,
     CONFIG
   )
+  const hideRightSidebarOnHome = siteConfig(
+    'SIMPLE_HIDE_RIGHT_SIDEBAR_ON_HOME',
+    null,
+    CONFIG
+  )
   const isHomePage = router.pathname === '/'
   const shouldShowRightSidebar =
     !fullWidth &&
+    !(hideRightSidebarOnHome && isHomePage) &&
     (!onlyShowRightSidebarOnHome || isHomePage) &&
     !(hideRightSidebarOnPages && post?.type === 'Page')
 
