@@ -29,7 +29,7 @@ function normalizeMenuNodes(links = []) {
     })
   })
 
-  return nodes.filter(node => node.name).slice(0, 8)
+  return nodes.filter(node => node.name).slice(0, 10)
 }
 
 function pickSubmenuSource(links = [], preferredParentName = '') {
@@ -95,7 +95,7 @@ function buildVisualNodes(nodes = [], aliasConfig = []) {
       merged.push(aliasNode)
     }
   })
-  return merged.slice(0, 8)
+  return merged.slice(0, 10)
 }
 
 function findNodeByKeyword(nodes = [], keyword = '') {
@@ -170,114 +170,156 @@ export default function HomeInterdisciplinary(props) {
     parseAliasConfig(aliasConfigRaw).length > 0
       ? parseAliasConfig(aliasConfigRaw)
       : [{ name: 'Architecture', match: 'Other Works' }]
-  const circleNodes = buildVisualNodes(
-    normalizeMenuNodes(focusedLinks),
-    aliasConfig
-  )
+  const menuNodes = buildVisualNodes(normalizeMenuNodes(focusedLinks), aliasConfig)
+
   const visualNodes = {
     architecture:
-      findNodeByKeyword(circleNodes, 'architecture') || circleNodes[0] || null,
-    visualDesign:
-      findNodeByKeyword(circleNodes, 'visual') || circleNodes[1] || null,
-    hci: findNodeByKeyword(circleNodes, 'hci') || circleNodes[2] || null,
+      findNodeByKeyword(menuNodes, 'architecture') || menuNodes[0] || null,
+    visualDesign: findNodeByKeyword(menuNodes, 'visual') || menuNodes[1] || null,
+    hci: findNodeByKeyword(menuNodes, 'hci') || menuNodes[2] || null,
     ixd:
-      findNodeByKeyword(circleNodes, 'ixd') ||
-      findNodeByKeyword(circleNodes, 'interaction') ||
-      circleNodes[3] ||
+      findNodeByKeyword(menuNodes, 'ixd') ||
+      findNodeByKeyword(menuNodes, 'interaction') ||
+      menuNodes[3] ||
       null,
-    ux: findNodeByKeyword(circleNodes, 'ux') || circleNodes[4] || null,
+    ux: findNodeByKeyword(menuNodes, 'ux') || menuNodes[4] || null,
     service:
-      findNodeByKeyword(circleNodes, 'service') ||
-      findNodeByKeyword(circleNodes, 'pssd') ||
-      circleNodes[5] ||
+      findNodeByKeyword(menuNodes, 'service') ||
+      findNodeByKeyword(menuNodes, 'pssd') ||
+      menuNodes[5] ||
       null
   }
 
+  const clickableGroups = [
+    {
+      node: visualNodes.architecture,
+      className:
+        'left-[39%] top-[6%] w-[20%] h-[48%] rounded-[50%]'
+    },
+    {
+      node: visualNodes.visualDesign,
+      className:
+        'left-[10%] top-[37%] w-[37%] h-[25%] rounded-[50%]'
+    },
+    {
+      node: visualNodes.hci,
+      className:
+        'left-[58%] top-[43%] w-[36%] h-[23%] rounded-[50%]'
+    },
+    {
+      node: visualNodes.ixd,
+      className:
+        'left-[38%] top-[37%] w-[28%] h-[30%] rounded-full'
+    }
+  ].filter(item => item.node)
+
   return (
-    <section className='w-full bg-[#ececec] border-t border-gray-200 mb-10 font-serif'>
-      <div className='mx-auto max-w-[1800px] px-4 md:px-10 py-10 md:py-16'>
-        <div className='grid grid-cols-1 lg:grid-cols-[60%_40%] gap-8 lg:gap-6 items-start'>
-          <div className='relative h-[660px] md:h-[760px] overflow-hidden'>
-            {leftPng && (
+    <section className='w-full bg-[#ececec] border-t border-[#d8dce2] mb-10'>
+      <div className='mx-auto max-w-[1700px] px-4 md:px-10 py-10 md:py-16'>
+        <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
+          <div className='relative h-[620px] md:h-[760px]'>
+            {leftPng ? (
               <LazyImage
                 src={leftPng}
-                alt='interdisciplinary-background'
-                className='absolute inset-0 w-full h-full object-contain opacity-90'
+                alt='discipline-map'
+                className='absolute inset-0 w-full h-full object-contain'
               />
+            ) : (
+              <svg
+                className='absolute inset-0 w-full h-full'
+                viewBox='0 0 1000 760'
+                preserveAspectRatio='xMidYMid meet'>
+                <ellipse
+                  cx='300'
+                  cy='470'
+                  rx='310'
+                  ry='190'
+                  fill='#d9d9d9'
+                  fillOpacity='0.38'
+                  transform='rotate(-28 300 470)'
+                />
+                <circle
+                  cx='470'
+                  cy='430'
+                  r='220'
+                  fill='#cfd3d9'
+                  fillOpacity='0.60'
+                />
+                <circle
+                  cx='510'
+                  cy='470'
+                  r='145'
+                  fill='#e8e0da'
+                  fillOpacity='0.92'
+                />
+                <ellipse
+                  cx='470'
+                  cy='255'
+                  rx='105'
+                  ry='205'
+                  fill='#d8a88f'
+                  fillOpacity='0.88'
+                />
+                <ellipse
+                  cx='275'
+                  cy='410'
+                  rx='190'
+                  ry='118'
+                  fill='#ddc8bc'
+                  fillOpacity='0.90'
+                />
+                <ellipse
+                  cx='740'
+                  cy='430'
+                  rx='190'
+                  ry='100'
+                  fill='#dfa07f'
+                  fillOpacity='0.88'
+                />
+              </svg>
             )}
-            <div className='absolute left-[6%] top-[32%] w-[520px] h-[340px] rounded-[48%] border border-white/40 bg-[#d9d9d9]/30 -rotate-[29deg]' />
-            <div className='absolute left-[24%] top-[22%] w-[430px] h-[430px] rounded-full border border-[#c4c9ce] bg-[#cfd3d9]/58' />
-            <div className='absolute left-[37%] top-[36%] w-[290px] h-[290px] rounded-full border border-white/50 bg-[#e8e0da]/90' />
 
-            {[
-              {
-                node: visualNodes.architecture,
-                cls: 'left-[38%] top-[8%] w-[210px] h-[420px] bg-[#d8a88f]/85'
-              },
-              {
-                node: visualNodes.visualDesign,
-                cls: 'left-[12%] top-[38%] w-[380px] h-[230px] bg-[#ddc8bc]/88'
-              },
-              {
-                node: visualNodes.hci,
-                cls: 'left-[57%] top-[43%] w-[390px] h-[190px] bg-[#dfa07f]/85'
-              },
-              {
-                node: visualNodes.ixd,
-                cls: 'left-[37%] top-[36%] w-[290px] h-[290px] bg-[#e2d9d2]/92'
-              }
-            ]
-              .filter(item => item.node)
-              .map((item, index) => (
+            {clickableGroups.map((item, index) => (
               <SmartLink
                 key={`${item.node.name}-${index}`}
                 href={item.node.href}
-                className={`absolute rounded-[999px] border border-white/60 hover:brightness-95 transition-all duration-200 flex items-center justify-center text-center px-4 ${item.cls}`}>
-                <span className='text-xl md:text-[42px] font-normal text-black/85 whitespace-nowrap'>
+                className={`absolute ${item.className} flex items-center justify-center text-center hover:brightness-95 transition-all duration-200`}>
+                <span className='text-lg md:text-[38px] leading-none text-black/85'>
                   {item.node.name}
                 </span>
               </SmartLink>
-              ))}
+            ))}
 
             {visualNodes.ux && (
               <SmartLink
                 href={visualNodes.ux.href}
-                className='absolute left-[41%] top-[68%] text-2xl md:text-[42px] text-black/80 hover:underline'>
+                className='absolute left-[41%] top-[67%] text-xl md:text-[34px] text-black/80 hover:underline'>
                 {visualNodes.ux.name}
               </SmartLink>
             )}
             {visualNodes.service && (
               <SmartLink
                 href={visualNodes.service.href}
-                className='absolute left-[12%] top-[79%] text-2xl md:text-[42px] text-black/80 hover:underline'>
+                className='absolute left-[14%] top-[78%] text-xl md:text-[34px] text-black/80 hover:underline'>
                 {visualNodes.service.name}
               </SmartLink>
             )}
 
-            {!visualNodes.architecture &&
-              !visualNodes.visualDesign &&
-              !visualNodes.hci &&
-              !visualNodes.ixd && (
-              <div className='absolute left-1/2 top-1/2 w-[180px] h-[100px] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-gray-400 bg-white/70 flex items-center justify-center text-center px-2 text-xs'>
-                请先配置菜单
-              </div>
-            )}
-
-            <div className='absolute left-[44%] top-[58%] text-3xl md:text-4xl text-black/75'>
+            <div className='absolute left-[46%] top-[57%] text-2xl md:text-3xl text-black/70'>
               {centerLabel}
             </div>
           </div>
 
-          <div className='space-y-9 md:space-y-12 pr-2 md:pr-12 pt-10 md:pt-24'>
-            <h1 className='text-4xl md:text-[56px] font-normal text-black tracking-tight'>
+          <div className='pt-8 md:pt-20 pr-2 md:pr-10 space-y-8 md:space-y-12'>
+            <h1 className='text-4xl md:text-[56px] font-normal text-black'>
               {introTitle}
             </h1>
             <div
-              className='text-black/90 leading-[1.7] text-[24px] md:text-[46px]'
+              className='text-black/90 leading-[1.75] text-xl md:text-[42px]'
               dangerouslySetInnerHTML={{ __html: introBody }}
             />
             {siteConfig('BIO') && (
-              <p className='text-xl md:text-[40px] text-black/70 leading-[1.6]'>
+              <p className='text-lg md:text-[34px] text-black/70 leading-[1.7]'>
                 {siteConfig('BIO')}
               </p>
             )}
@@ -285,12 +327,8 @@ export default function HomeInterdisciplinary(props) {
         </div>
 
         {bottomPng && (
-          <div className='mt-8 md:mt-12'>
-            <LazyImage
-              src={bottomPng}
-              alt='home-bottom-art'
-              className='w-full h-auto'
-            />
+          <div className='mt-8 md:mt-14'>
+            <LazyImage src={bottomPng} alt='home-bottom-art' className='w-full h-auto' />
           </div>
         )}
       </div>
