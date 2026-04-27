@@ -159,6 +159,10 @@ export default function HomeInterdisciplinary(props) {
     siteConfig('SIMPLE_LOGO_DESCRIPTION', null, CONFIG)
   const leftPng = siteConfig('SIMPLE_HOME_LEFT_PNG', null, CONFIG)
   const bottomPng = siteConfig('SIMPLE_HOME_BOTTOM_PNG', null, CONFIG)
+  const mapFontSize = Number(siteConfig('SIMPLE_HOME_MAP_FONT_SIZE', null, CONFIG)) || 18
+  const titleFontSize = Number(siteConfig('SIMPLE_HOME_TITLE_FONT_SIZE', null, CONFIG)) || 56
+  const bodyFontSize = Number(siteConfig('SIMPLE_HOME_BODY_FONT_SIZE', null, CONFIG)) || 24
+  const bioFontSize = Number(siteConfig('SIMPLE_HOME_BIO_FONT_SIZE', null, CONFIG)) || 20
   const preferredSubmenuParent = siteConfig(
     'SIMPLE_HOME_SUBMENU_PARENT',
     null,
@@ -288,7 +292,9 @@ export default function HomeInterdisciplinary(props) {
                 key={`${item.node.name}-${index}`}
                 href={item.node.href}
                 className={`absolute ${item.className} flex items-center justify-center text-center hover:brightness-95 transition-all duration-200`}>
-                <span className='text-base md:text-2xl leading-none text-black/85 whitespace-nowrap'>
+                <span
+                  className='leading-none text-black/85 whitespace-nowrap'
+                  style={{ fontSize: `${mapFontSize}px` }}>
                   {item.label}
                 </span>
               </SmartLink>
@@ -297,33 +303,42 @@ export default function HomeInterdisciplinary(props) {
             {visualNodes.ux && (
               <SmartLink
                 href={visualNodes.ux.href}
-                className='absolute left-[41%] top-[67%] text-lg md:text-2xl text-black/80 hover:underline'>
+                className='absolute left-[41%] top-[67%] text-black/80 hover:underline'
+                style={{ fontSize: `${mapFontSize}px` }}>
                 UX
               </SmartLink>
             )}
             {visualNodes.service && (
               <SmartLink
                 href={visualNodes.service.href}
-                className='absolute left-[14%] top-[78%] text-lg md:text-2xl text-black/80 hover:underline'>
+                className='absolute left-[14%] top-[78%] text-black/80 hover:underline'
+                style={{ fontSize: `${mapFontSize}px` }}>
                 Service Design
               </SmartLink>
             )}
 
-            <div className='absolute left-[46%] top-[57%] text-xl md:text-2xl text-black/70'>
+            <div
+              className='absolute left-[46%] top-[57%] text-black/70'
+              style={{ fontSize: `${Math.max(18, mapFontSize - 2)}px` }}>
               {centerLabel}
             </div>
           </div>
 
           <div className='pt-8 md:pt-20 pr-2 md:pr-10 space-y-8 md:space-y-12'>
-            <h1 className='text-3xl md:text-5xl font-normal text-black'>
+            <h1
+              className='font-normal text-black leading-tight'
+              style={{ fontSize: `${titleFontSize}px` }}>
               {introTitle}
             </h1>
             <div
-              className='text-black/90 leading-[1.8] text-base md:text-2xl'
+              className='text-black/90 leading-[1.8]'
+              style={{ fontSize: `${bodyFontSize}px` }}
               dangerouslySetInnerHTML={{ __html: introBody }}
             />
             {siteConfig('BIO') && (
-              <p className='text-base md:text-xl text-black/70 leading-[1.7]'>
+              <p
+                className='text-black/70 leading-[1.7]'
+                style={{ fontSize: `${bioFontSize}px` }}>
                 {siteConfig('BIO')}
               </p>
             )}
