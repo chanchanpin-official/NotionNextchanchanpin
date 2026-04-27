@@ -110,6 +110,25 @@ function findNodeByKeyword(nodes = [], keyword = '') {
   )
 }
 
+function parseHotspots(rawValue = '') {
+  if (!rawValue) return []
+  try {
+    const parsed = JSON.parse(rawValue)
+    if (!Array.isArray(parsed)) return []
+    return parsed.filter(
+      item =>
+        item?.label &&
+        item?.match &&
+        item?.left !== undefined &&
+        item?.top !== undefined &&
+        item?.width !== undefined &&
+        item?.height !== undefined
+    )
+  } catch (error) {
+    return []
+  }
+}
+
 export default function HomeInterdisciplinary(props) {
   const { locale } = useGlobal()
   const { customMenu, customNav } = props
@@ -164,6 +183,8 @@ export default function HomeInterdisciplinary(props) {
   const introBody =
     siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG) || defaultIntroHtml
   const signatureText = siteConfig('SIMPLE_HOME_SIGNATURE_TEXT', null, CONFIG)
+  const frameImage = siteConfig('SIMPLE_HOME_FRAME_IMAGE', null, CONFIG)
+  const hotspotsConfigRaw = siteConfig('SIMPLE_HOME_HOTSPOTS', null, CONFIG)
   const leftPng = siteConfig('SIMPLE_HOME_LEFT_PNG', null, CONFIG)
   const bottomPng = siteConfig('SIMPLE_HOME_BOTTOM_PNG', null, CONFIG)
   const mapFontSize = Number(siteConfig('SIMPLE_HOME_MAP_FONT_SIZE', null, CONFIG)) || 18
@@ -201,6 +222,18 @@ export default function HomeInterdisciplinary(props) {
       null
   }
 
+  const defaultHotspots = [
+    { label: 'Architecture', match: 'architecture', left: 39, top: 6, width: 20, height: 48 },
+    { label: 'Visual Design', match: 'visual', left: 10, top: 37, width: 37, height: 25 },
+    { label: 'HCI', match: 'hci', left: 58, top: 43, width: 36, height: 23 },
+    { label: 'IxD', match: 'ixd', left: 38, top: 37, width: 28, height: 30 },
+    { label: 'UX', match: 'ux', left: 41, top: 67, width: 10, height: 8 },
+    { label: 'Service Design', match: 'service', left: 14, top: 78, width: 26, height: 8 }
+  ]
+  const hotspots = parseHotspots(hotspotsConfigRaw).length
+    ? parseHotspots(hotspotsConfigRaw)
+    : defaultHotspots
+
   const clickableGroups = [
     {
       label: 'Architecture',
@@ -228,12 +261,29 @@ export default function HomeInterdisciplinary(props) {
     }
   ].filter(item => item.node)
 
+  const hotspotNodes = hotspots
+    .map((spot, index) => {
+      const node =
+        findNodeByKeyword(menuNodes, spot.match) ||
+        findNodeByKeyword(menuNodes, spot.label) ||
+        null
+      if (!node) return null
+      return { ...spot, node, index }
+    })
+    .filter(Boolean)
+
   return (
     <section className='relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FAFAFA] border-t border-[#edf0f3] mb-10'>
       <div className='mx-auto max-w-[1700px] px-0 md:px-0 py-10 md:py-16'>
         <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
           <div className='relative h-[620px] md:h-[760px]'>
-            {leftPng ? (
+            {frameImage ? (
+              <LazyImage
+                src={frameImage}
+                alt='discipline-frame'
+                className='absolute inset-0 w-full h-full object-contain'
+              />
+            ) : leftPng ? (
               <LazyImage
                 src={leftPng}
                 alt='discipline-map'
@@ -294,41 +344,40 @@ export default function HomeInterdisciplinary(props) {
               </svg>
             )}
 
-            {clickableGroups.map((item, index) => (
-              <SmartLink
-                key={`${item.node.name}-${index}`}
-                href={item.node.href}
-                className={`absolute ${item.className} flex items-center justify-center text-center hover:brightness-95 transition-all duration-200`}>
-                <span
-                  className='leading-none text-black/85 whitespace-nowrap'
-                  style={{ fontSize: `${mapFontSize}px` }}>
-                  {item.label}
-                </span>
-              </SmartLink>
-            ))}
+            {(hotspotNodes.length ? hotspotNodes : clickableGroups).map(
+              (item, index) => {
+                const style = item.left !== undefined
+                  ? {
+                      left: `${item.left}%`,
+                      top: `${item.top}%`,
+                      width: `${item.width}%`,
+                      height: `${item.height}%`
+                    }
+                  : undefined
 
-            {visualNodes.ux && (
-              <SmartLink
-                href={visualNodes.ux.href}
-                className='absolute left-[41%] top-[67%] text-black/80 hover:underline'
-                style={{ fontSize: `${mapFontSize}px` }}>
-                UX
-              </SmartLink>
-            )}
-            {visualNodes.service && (
-              <SmartLink
-                href={visualNodes.service.href}
-                className='absolute left-[14%] top-[78%] text-black/80 hover:underline'
-                style={{ fontSize: `${mapFontSize}px` }}>
-                Service Design
-              </SmartLink>
+                return (
+                  <SmartLink
+                    key={`${item.node.name}-${item.index ?? index}`}
+                    href={item.node.href}
+                    className={`absolute flex items-center justify-center text-center hover:brightness-95 transition-all duration-200 ${item.className || ''}`}
+                    style={style}>
+                    <span
+                      className='leading-none text-black/85 whitespace-nowrap'
+                      style={{ fontSize: `${mapFontSize}px` }}>
+                      {item.label}
+                    </span>
+                  </SmartLink>
+                )
+              }
             )}
 
-            <div
-              className='absolute left-[46%] top-[57%] text-black/70'
-              style={{ fontSize: `${Math.max(18, mapFontSize - 2)}px` }}>
-              {centerLabel}
-            </div>
+            {!frameImage && (
+              <div
+                className='absolute left-[46%] top-[57%] text-black/70'
+                style={{ fontSize: `${Math.max(18, mapFontSize - 2)}px` }}>
+                {centerLabel}
+              </div>
+            )}
           </div>
 
           <div className='pt-8 md:pt-20 pr-2 md:pr-10 space-y-8 md:space-y-12'>
