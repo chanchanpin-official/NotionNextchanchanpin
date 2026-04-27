@@ -192,21 +192,25 @@ export default function HomeInterdisciplinary(props) {
 
   const clickableGroups = [
     {
+      label: 'Architecture',
       node: visualNodes.architecture,
       className:
         'left-[39%] top-[6%] w-[20%] h-[48%] rounded-[50%]'
     },
     {
+      label: 'Visual Design',
       node: visualNodes.visualDesign,
       className:
         'left-[10%] top-[37%] w-[37%] h-[25%] rounded-[50%]'
     },
     {
+      label: 'HCI',
       node: visualNodes.hci,
       className:
         'left-[58%] top-[43%] w-[36%] h-[23%] rounded-[50%]'
     },
     {
+      label: 'IxD',
       node: visualNodes.ixd,
       className:
         'left-[38%] top-[37%] w-[28%] h-[30%] rounded-full'
@@ -284,8 +288,8 @@ export default function HomeInterdisciplinary(props) {
                 key={`${item.node.name}-${index}`}
                 href={item.node.href}
                 className={`absolute ${item.className} flex items-center justify-center text-center hover:brightness-95 transition-all duration-200`}>
-                <span className='text-lg md:text-[38px] leading-none text-black/85'>
-                  {item.node.name}
+                <span className='text-base md:text-2xl leading-none text-black/85 whitespace-nowrap'>
+                  {item.label}
                 </span>
               </SmartLink>
             ))}
@@ -293,33 +297,33 @@ export default function HomeInterdisciplinary(props) {
             {visualNodes.ux && (
               <SmartLink
                 href={visualNodes.ux.href}
-                className='absolute left-[41%] top-[67%] text-xl md:text-[34px] text-black/80 hover:underline'>
-                {visualNodes.ux.name}
+                className='absolute left-[41%] top-[67%] text-lg md:text-2xl text-black/80 hover:underline'>
+                UX
               </SmartLink>
             )}
             {visualNodes.service && (
               <SmartLink
                 href={visualNodes.service.href}
-                className='absolute left-[14%] top-[78%] text-xl md:text-[34px] text-black/80 hover:underline'>
-                {visualNodes.service.name}
+                className='absolute left-[14%] top-[78%] text-lg md:text-2xl text-black/80 hover:underline'>
+                Service Design
               </SmartLink>
             )}
 
-            <div className='absolute left-[46%] top-[57%] text-2xl md:text-3xl text-black/70'>
+            <div className='absolute left-[46%] top-[57%] text-xl md:text-2xl text-black/70'>
               {centerLabel}
             </div>
           </div>
 
           <div className='pt-8 md:pt-20 pr-2 md:pr-10 space-y-8 md:space-y-12'>
-            <h1 className='text-4xl md:text-[56px] font-normal text-black'>
+            <h1 className='text-3xl md:text-5xl font-normal text-black'>
               {introTitle}
             </h1>
             <div
-              className='text-black/90 leading-[1.75] text-xl md:text-[42px]'
+              className='text-black/90 leading-[1.8] text-base md:text-2xl'
               dangerouslySetInnerHTML={{ __html: introBody }}
             />
             {siteConfig('BIO') && (
-              <p className='text-lg md:text-[34px] text-black/70 leading-[1.7]'>
+              <p className='text-base md:text-xl text-black/70 leading-[1.7]'>
                 {siteConfig('BIO')}
               </p>
             )}
