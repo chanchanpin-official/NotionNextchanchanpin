@@ -113,6 +113,12 @@ function findNodeByKeyword(nodes = [], keyword = '') {
 export default function HomeInterdisciplinary(props) {
   const { locale } = useGlobal()
   const { customMenu, customNav } = props
+  const defaultIntroHtml = `
+    <p>你好，我叫成亮。是一名泛设计学科的学生。</p>
+    <p>本科期间，我因为“社区营造”的课题初步接触了以用户为中心的设计（UCD），因缘我开始广泛学习服务设计，用户体验设计（UX）等学科。</p>
+    <p>我在不同的设计对象和语境里关注用户需求、系统思维，并正在硕士研究生阶段延续这一方向上的探索。</p>
+    <p>重绘自 © <a href="https://www.instagram.com/envis.precisely/" target="_blank" rel="noreferrer">envis precisely</a>，这是我已经尝试过的学科，他们间的交叉是设计学的魅力所在。</p>
+  `
 
   const fallbackLinks = [
     {
@@ -153,8 +159,11 @@ export default function HomeInterdisciplinary(props) {
     null,
     CONFIG
   )
-  const introTitle = siteConfig('AUTHOR')
-  const introBody = siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG)
+  const introTitle =
+    siteConfig('SIMPLE_HOME_TITLE_TEXT', null, CONFIG) || siteConfig('AUTHOR')
+  const introBody =
+    siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG) || defaultIntroHtml
+  const signatureText = siteConfig('SIMPLE_HOME_SIGNATURE_TEXT', null, CONFIG)
   const leftPng = siteConfig('SIMPLE_HOME_LEFT_PNG', null, CONFIG)
   const bottomPng = siteConfig('SIMPLE_HOME_BOTTOM_PNG', null, CONFIG)
   const mapFontSize = Number(siteConfig('SIMPLE_HOME_MAP_FONT_SIZE', null, CONFIG)) || 18
@@ -328,19 +337,24 @@ export default function HomeInterdisciplinary(props) {
               style={{ fontSize: `${titleFontSize}px` }}>
               {introTitle}
             </h1>
-            {introBody && (
-              <div
-                className='text-black/90 leading-[1.8]'
-                style={{ fontSize: `${bodyFontSize}px` }}
-                dangerouslySetInnerHTML={{ __html: introBody }}
-              />
-            )}
+            <div
+              className='text-black/90 leading-[1.8] space-y-4'
+              style={{ fontSize: `${bodyFontSize}px` }}
+              dangerouslySetInnerHTML={{ __html: introBody }}
+            />
             {siteConfig('BIO') && (
               <p
                 className='text-black/70 leading-[1.7]'
                 style={{ fontSize: `${bioFontSize}px` }}>
                 {siteConfig('BIO')}
               </p>
+            )}
+            {signatureText && (
+              <div
+                className='font-semibold tracking-tight text-black/75'
+                style={{ fontSize: `${Math.max(20, bioFontSize + 8)}px` }}>
+                {signatureText}
+              </div>
             )}
           </div>
         </div>
