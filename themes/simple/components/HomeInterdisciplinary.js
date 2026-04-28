@@ -197,9 +197,6 @@ export default function HomeInterdisciplinary(props) {
   const showIntroTitle =
     String(siteConfig('SIMPLE_HOME_SHOW_TITLE', null, CONFIG) || '').toLowerCase() ===
     'true'
-  const showSignature =
-    String(siteConfig('SIMPLE_HOME_SHOW_SIGNATURE', null, CONFIG) || '').toLowerCase() ===
-    'true'
   const introBody =
     siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG) || defaultIntroHtml
   const signatureText = siteConfig('SIMPLE_HOME_SIGNATURE_TEXT', null, CONFIG)
@@ -230,7 +227,6 @@ export default function HomeInterdisciplinary(props) {
   const hotspotsConfigRaw = siteConfig('SIMPLE_HOME_HOTSPOTS', null, CONFIG)
   const leftPng = siteConfig('SIMPLE_HOME_LEFT_PNG', null, CONFIG)
   const bottomPng = siteConfig('SIMPLE_HOME_BOTTOM_PNG', null, CONFIG)
-  const bottomArtImage = bottomPng || defaultGroundLayer.src
   const rightLogoImage =
     siteConfig('SIMPLE_HOME_RIGHT_LOGO_IMAGE', null, CONFIG) || defaultMainLayer.src
   const bodyFontSize = Number(siteConfig('SIMPLE_HOME_BODY_FONT_SIZE', null, CONFIG)) || 24
@@ -362,10 +358,11 @@ export default function HomeInterdisciplinary(props) {
     layerServiceImage ||
     layerUxImage ||
     layerIxdImage
+  const bottomArtImage = hasLayerMode ? defaultGroundLayer.src : (bottomPng || defaultGroundLayer.src)
 
   return (
-    <section className='relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FAFAFA] border-t border-[#edf0f3] mb-10'>
-      <div className='mx-auto w-[80vw] max-w-[1700px] px-0 py-10 md:py-16'>
+    <section className='relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FAFAFA] border-t border-[#edf0f3]'>
+      <div className='mx-auto w-[80vw] max-w-[1700px] px-0 py-4 md:py-6'>
         <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
           <div className='relative h-[560px] sm:h-[620px] md:h-[760px] overflow-hidden'>
             {frameImage ? (
@@ -394,7 +391,7 @@ export default function HomeInterdisciplinary(props) {
                   <LazyImage
                     src={layerArchitectureImage}
                     alt='discipline-architecture-layer'
-                    className='absolute object-contain'
+                    className='absolute object-contain z-30'
                     style={toPlacementStyle(layerPlacements.architecture)}
                   />
                 )}
@@ -402,7 +399,7 @@ export default function HomeInterdisciplinary(props) {
                   <LazyImage
                     src={layerVisualImage}
                     alt='discipline-visual-layer'
-                    className='absolute object-contain'
+                    className='absolute object-contain z-20'
                     style={toPlacementStyle(layerPlacements.visualDesign)}
                   />
                 )}
@@ -410,7 +407,7 @@ export default function HomeInterdisciplinary(props) {
                   <LazyImage
                     src={layerHciImage}
                     alt='discipline-hci-layer'
-                    className='absolute object-contain'
+                    className='absolute object-contain z-30'
                     style={toPlacementStyle(layerPlacements.hci)}
                   />
                 )}
@@ -418,7 +415,7 @@ export default function HomeInterdisciplinary(props) {
                   <LazyImage
                     src={layerServiceImage}
                     alt='discipline-service-layer'
-                    className='absolute object-contain'
+                    className='absolute object-contain z-10'
                     style={toPlacementStyle(layerPlacements.service)}
                   />
                 )}
@@ -426,7 +423,7 @@ export default function HomeInterdisciplinary(props) {
                   <LazyImage
                     src={layerUxImage}
                     alt='discipline-ux-layer'
-                    className='absolute object-contain'
+                    className='absolute object-contain z-[15]'
                     style={toPlacementStyle(layerPlacements.ux)}
                   />
                 )}
@@ -434,7 +431,7 @@ export default function HomeInterdisciplinary(props) {
                   <LazyImage
                     src={layerIxdImage}
                     alt='discipline-ixd-layer'
-                    className='absolute object-contain'
+                    className='absolute object-contain z-40'
                     style={toPlacementStyle(layerPlacements.ixd)}
                   />
                 )}
@@ -558,18 +555,12 @@ export default function HomeInterdisciplinary(props) {
                 className='w-[220px] max-w-full h-auto object-contain pt-2'
               />
             )}
-            {showSignature && signatureText && (
-              <div
-                className='font-semibold tracking-tight text-black/75'
-                style={{ fontSize: `${Math.max(20, bioFontSize + 8)}px` }}>
-                {signatureText}
-              </div>
-            )}
+
           </div>
         </div>
 
         {bottomArtImage && (
-          <div className='mt-8 md:mt-14'>
+          <div className='-mt-16 md:-mt-24'>
             <LazyImage
               src={bottomArtImage}
               alt='home-bottom-art'
