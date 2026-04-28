@@ -3,7 +3,6 @@ import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import CONFIG from '../config'
-import defaultMainLayer from '@/pages/pcl/envis logo.png'
 import defaultGroundLayer from '@/pages/pcl/底部图.png'
 import defaultArchitectureLayer from '@/pages/pcl/Architecture.png'
 import defaultVisualLayer from '@/pages/pcl/Visual Design.png'
@@ -192,12 +191,8 @@ export default function HomeInterdisciplinary(props) {
     siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG) || defaultIntroHtml
   const signatureText = siteConfig('SIMPLE_HOME_SIGNATURE_TEXT', null, CONFIG)
   const frameImage = siteConfig('SIMPLE_HOME_FRAME_IMAGE', null, CONFIG)
-  const layerMainImage =
-    siteConfig('SIMPLE_HOME_LAYER_MAIN_IMAGE', null, CONFIG) ||
-    defaultMainLayer.src
-  const layerGroundImage =
-    siteConfig('SIMPLE_HOME_LAYER_GROUND_IMAGE', null, CONFIG) ||
-    defaultGroundLayer.src
+  const layerMainImage = siteConfig('SIMPLE_HOME_LAYER_MAIN_IMAGE', null, CONFIG)
+  const layerGroundImage = siteConfig('SIMPLE_HOME_LAYER_GROUND_IMAGE', null, CONFIG)
   const layerArchitectureImage = siteConfig(
     'SIMPLE_HOME_LAYER_ARCHITECTURE_IMAGE',
     null,
@@ -222,6 +217,7 @@ export default function HomeInterdisciplinary(props) {
   const hotspotsConfigRaw = siteConfig('SIMPLE_HOME_HOTSPOTS', null, CONFIG)
   const leftPng = siteConfig('SIMPLE_HOME_LEFT_PNG', null, CONFIG)
   const bottomPng = siteConfig('SIMPLE_HOME_BOTTOM_PNG', null, CONFIG)
+  const bottomArtImage = bottomPng || defaultGroundLayer.src
   const mapFontSize = Number(siteConfig('SIMPLE_HOME_MAP_FONT_SIZE', null, CONFIG)) || 18
   const titleFontSize = Number(siteConfig('SIMPLE_HOME_TITLE_FONT_SIZE', null, CONFIG)) || 56
   const bodyFontSize = Number(siteConfig('SIMPLE_HOME_BODY_FONT_SIZE', null, CONFIG)) || 24
@@ -320,7 +316,7 @@ export default function HomeInterdisciplinary(props) {
     <section className='relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FAFAFA] border-t border-[#edf0f3] mb-10'>
       <div className='mx-auto max-w-[1700px] px-0 md:px-0 py-10 md:py-16'>
         <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
-          <div className='relative h-[560px] sm:h-[620px] md:h-[760px]'>
+          <div className='relative h-[520px] sm:h-[580px] md:h-[700px]'>
             {hasLayerMode ? (
               <>
                 {layerMainImage && (
@@ -464,11 +460,13 @@ export default function HomeInterdisciplinary(props) {
                     href={item.node.href}
                     className={`absolute flex items-center justify-center text-center hover:brightness-95 transition-all duration-200 ${item.className || ''}`}
                     style={style}>
-                    <span
-                      className='leading-none text-black/85 whitespace-nowrap px-1'
-                      style={{ fontSize: `${mapFontSize}px` }}>
-                      {item.label}
-                    </span>
+                    {!hasLayerMode && (
+                      <span
+                        className='leading-none text-black/85 whitespace-nowrap px-1'
+                        style={{ fontSize: `${mapFontSize}px` }}>
+                        {item.label}
+                      </span>
+                    )}
                   </SmartLink>
                 )
               }
@@ -511,16 +509,10 @@ export default function HomeInterdisciplinary(props) {
           </div>
         </div>
 
-        {bottomPng && (
-          <div className='mt-8 md:mt-14'>
-            <LazyImage src={bottomPng} alt='home-bottom-art' className='w-full h-auto' />
-          </div>
-        )}
-
-        {!bottomPng && layerGroundImage && (
+        {bottomArtImage && (
           <div className='mt-8 md:mt-14'>
             <LazyImage
-              src={layerGroundImage}
+              src={bottomArtImage}
               alt='home-bottom-art'
               className='w-full h-auto object-contain'
             />
