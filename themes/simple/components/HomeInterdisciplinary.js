@@ -3,6 +3,14 @@ import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import CONFIG from '../config'
+import defaultMainLayer from '@/pages/pcl/envis logo.png'
+import defaultGroundLayer from '@/pages/pcl/底部图.png'
+import defaultArchitectureLayer from '@/pages/pcl/Architecture.png'
+import defaultVisualLayer from '@/pages/pcl/Visual Design.png'
+import defaultHciLayer from '@/pages/pcl/HCI.png'
+import defaultServiceLayer from '@/pages/pcl/Service Design.png'
+import defaultUxLayer from '@/pages/pcl/UX.png'
+import defaultIxdLayer from '@/pages/pcl/Ixd.png'
 
 function normalizeMenuNodes(links = []) {
   const nodes = []
@@ -184,26 +192,33 @@ export default function HomeInterdisciplinary(props) {
     siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG) || defaultIntroHtml
   const signatureText = siteConfig('SIMPLE_HOME_SIGNATURE_TEXT', null, CONFIG)
   const frameImage = siteConfig('SIMPLE_HOME_FRAME_IMAGE', null, CONFIG)
-  const layerMainImage = siteConfig('SIMPLE_HOME_LAYER_MAIN_IMAGE', null, CONFIG)
-  const layerGroundImage = siteConfig('SIMPLE_HOME_LAYER_GROUND_IMAGE', null, CONFIG)
+  const layerMainImage =
+    siteConfig('SIMPLE_HOME_LAYER_MAIN_IMAGE', null, CONFIG) ||
+    defaultMainLayer.src
+  const layerGroundImage =
+    siteConfig('SIMPLE_HOME_LAYER_GROUND_IMAGE', null, CONFIG) ||
+    defaultGroundLayer.src
   const layerArchitectureImage = siteConfig(
     'SIMPLE_HOME_LAYER_ARCHITECTURE_IMAGE',
     null,
     CONFIG
-  )
+  ) || defaultArchitectureLayer.src
   const layerVisualImage = siteConfig(
     'SIMPLE_HOME_LAYER_VISUAL_IMAGE',
     null,
     CONFIG
-  )
-  const layerHciImage = siteConfig('SIMPLE_HOME_LAYER_HCI_IMAGE', null, CONFIG)
+  ) || defaultVisualLayer.src
+  const layerHciImage =
+    siteConfig('SIMPLE_HOME_LAYER_HCI_IMAGE', null, CONFIG) || defaultHciLayer.src
   const layerServiceImage = siteConfig(
     'SIMPLE_HOME_LAYER_SERVICE_IMAGE',
     null,
     CONFIG
-  )
-  const layerUxImage = siteConfig('SIMPLE_HOME_LAYER_UX_IMAGE', null, CONFIG)
-  const layerIxdImage = siteConfig('SIMPLE_HOME_LAYER_IXD_IMAGE', null, CONFIG)
+  ) || defaultServiceLayer.src
+  const layerUxImage =
+    siteConfig('SIMPLE_HOME_LAYER_UX_IMAGE', null, CONFIG) || defaultUxLayer.src
+  const layerIxdImage =
+    siteConfig('SIMPLE_HOME_LAYER_IXD_IMAGE', null, CONFIG) || defaultIxdLayer.src
   const hotspotsConfigRaw = siteConfig('SIMPLE_HOME_HOTSPOTS', null, CONFIG)
   const leftPng = siteConfig('SIMPLE_HOME_LEFT_PNG', null, CONFIG)
   const bottomPng = siteConfig('SIMPLE_HOME_BOTTOM_PNG', null, CONFIG)
@@ -305,7 +320,7 @@ export default function HomeInterdisciplinary(props) {
     <section className='relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FAFAFA] border-t border-[#edf0f3] mb-10'>
       <div className='mx-auto max-w-[1700px] px-0 md:px-0 py-10 md:py-16'>
         <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
-          <div className='relative h-[620px] md:h-[760px]'>
+          <div className='relative h-[560px] sm:h-[620px] md:h-[760px]'>
             {hasLayerMode ? (
               <>
                 {layerMainImage && (
@@ -450,7 +465,7 @@ export default function HomeInterdisciplinary(props) {
                     className={`absolute flex items-center justify-center text-center hover:brightness-95 transition-all duration-200 ${item.className || ''}`}
                     style={style}>
                     <span
-                      className='leading-none text-black/85 whitespace-nowrap'
+                      className='leading-none text-black/85 whitespace-nowrap px-1'
                       style={{ fontSize: `${mapFontSize}px` }}>
                       {item.label}
                     </span>
@@ -468,21 +483,21 @@ export default function HomeInterdisciplinary(props) {
             )}
           </div>
 
-          <div className='pt-8 md:pt-20 pr-2 md:pr-10 space-y-8 md:space-y-12'>
+          <div className='pt-2 md:pt-20 pr-2 md:pr-10 space-y-6 md:space-y-12'>
             <h1
               className='font-normal text-black leading-tight'
-              style={{ fontSize: `${titleFontSize}px` }}>
+              style={{ fontSize: `clamp(36px, 6vw, ${titleFontSize}px)` }}>
               {introTitle}
             </h1>
             <div
               className='text-black/90 leading-[1.8] space-y-4'
-              style={{ fontSize: `${bodyFontSize}px` }}
+              style={{ fontSize: `clamp(17px, 2.3vw, ${bodyFontSize}px)` }}
               dangerouslySetInnerHTML={{ __html: introBody }}
             />
             {siteConfig('BIO') && (
               <p
                 className='text-black/70 leading-[1.7]'
-                style={{ fontSize: `${bioFontSize}px` }}>
+                style={{ fontSize: `clamp(16px, 2vw, ${bioFontSize}px)` }}>
                 {siteConfig('BIO')}
               </p>
             )}
@@ -499,6 +514,16 @@ export default function HomeInterdisciplinary(props) {
         {bottomPng && (
           <div className='mt-8 md:mt-14'>
             <LazyImage src={bottomPng} alt='home-bottom-art' className='w-full h-auto' />
+          </div>
+        )}
+
+        {!bottomPng && layerGroundImage && (
+          <div className='mt-8 md:mt-14'>
+            <LazyImage
+              src={layerGroundImage}
+              alt='home-bottom-art'
+              className='w-full h-auto object-contain'
+            />
           </div>
         )}
       </div>
