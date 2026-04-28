@@ -144,7 +144,7 @@ export default function HomeInterdisciplinary(props) {
     <p>你好，我叫成亮。是一名泛设计学科的学生。</p>
     <p>本科期间，我因为“社区营造”的课题初步接触了以用户为中心的设计（UCD），因缘我开始广泛学习服务设计，用户体验设计（UX）等学科。</p>
     <p>我在不同的设计对象和语境里关注用户需求、系统思维，并正在硕士研究生阶段延续这一方向上的探索。</p>
-    <p>重绘自 © <a href="https://www.instagram.com/envis.precisely/" target="_blank" rel="noreferrer">envis precisely</a>，这是我已经尝试过的学科，他们间的交叉是设计学的魅力所在。</p>
+    <p>重绘自 © <a href="https://github.com/envisprecisely/disciplines-of-ux" target="_blank" rel="noreferrer">envis precisely</a>，这是我已经尝试过的学科，他们间的交叉是设计学的魅力所在。</p>
   `
 
   const fallbackLinks = [
