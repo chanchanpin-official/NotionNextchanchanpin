@@ -240,10 +240,10 @@ export default function HomeInterdisciplinary(props) {
   const bottomPng = siteConfig('SIMPLE_HOME_BOTTOM_PNG', null, CONFIG)
   const rightLogoImage =
     siteConfig('SIMPLE_HOME_RIGHT_LOGO_IMAGE', null, CONFIG) || defaultMainLayer.src
-  const bodyFontSize = Number(siteConfig('SIMPLE_HOME_BODY_FONT_SIZE', null, CONFIG)) || 24
+  const bodyFontSize = Number(siteConfig('SIMPLE_HOME_BODY_FONT_SIZE', null, CONFIG)) || 16
   const mapFontSize = Number(siteConfig('SIMPLE_HOME_MAP_FONT_SIZE', null, CONFIG)) || bodyFontSize
   const titleFontSize = Number(siteConfig('SIMPLE_HOME_TITLE_FONT_SIZE', null, CONFIG)) || 56
-  const bioFontSize = Number(siteConfig('SIMPLE_HOME_BIO_FONT_SIZE', null, CONFIG)) || 20
+  const bioFontSize = Number(siteConfig('SIMPLE_HOME_BIO_FONT_SIZE', null, CONFIG)) || 16
   const preferredSubmenuParent = siteConfig(
     'SIMPLE_HOME_SUBMENU_PARENT',
     null,
@@ -326,14 +326,14 @@ export default function HomeInterdisciplinary(props) {
     }
   ].filter(item => item.node)
 
-  const layerScale = Number(siteConfig('SIMPLE_HOME_LAYER_SCALE', null, CONFIG)) || 0.95
+  const layerScale = Number(siteConfig('SIMPLE_HOME_LAYER_SCALE', null, CONFIG)) || 1.06
   const defaultLayerPlacements = {
-    architecture: { left: 35, top: 6, width: (150 / 1000) * 100 * layerScale, height: (290 / 760) * 100 * layerScale },
-    visualDesign: { left: 8, top: 33, width: (269 / 1000) * 100 * layerScale, height: (219 / 760) * 100 * layerScale },
-    hci: { left: 57, top: 38, width: (265 / 1000) * 100 * layerScale, height: (171 / 760) * 100 * layerScale },
-    ixd: { left: 29, top: 40, width: (255 / 1000) * 100 * layerScale, height: (255 / 760) * 100 * layerScale },
-    ux: { left: 16, top: 30, width: (342 / 1000) * 100 * layerScale, height: (343 / 760) * 100 * layerScale },
-    service: { left: 2, top: 18, width: (661 / 1000) * 100 * layerScale, height: (625 / 760) * 100 * layerScale }
+    architecture: { left: 35, top: 3, width: (150 / 1000) * 100 * layerScale, height: (290 / 760) * 100 * layerScale },
+    visualDesign: { left: 9, top: 29, width: (269 / 1000) * 100 * layerScale, height: (219 / 760) * 100 * layerScale },
+    hci: { left: 56, top: 32, width: (265 / 1000) * 100 * layerScale, height: (171 / 760) * 100 * layerScale },
+    ixd: { left: 30, top: 31, width: (255 / 1000) * 100 * layerScale, height: (255 / 760) * 100 * layerScale },
+    ux: { left: 16, top: 16, width: (342 / 1000) * 100 * layerScale, height: (343 / 760) * 100 * layerScale },
+    service: { left: 2, top: 20, width: (661 / 1000) * 100 * layerScale, height: (625 / 760) * 100 * layerScale }
   }
   const layerPlacementsConfig = parseLayerPlacements(
     siteConfig('SIMPLE_HOME_LAYER_PLACEMENTS', null, CONFIG)
@@ -345,10 +345,10 @@ export default function HomeInterdisciplinary(props) {
   const defaultLayerZIndex = {
     service: 10,
     ux: 20,
-    visualDesign: 30,
-    architecture: 40,
+    ixd: 30,
+    visualDesign: 40,
     hci: 50,
-    ixd: 60
+    architecture: 60
   }
   const layerZIndexConfig = parseLayerZIndex(
     siteConfig('SIMPLE_HOME_LAYER_Z_INDEX', null, CONFIG)
@@ -389,7 +389,7 @@ export default function HomeInterdisciplinary(props) {
 
   return (
     <section className='relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FAFAFA] border-t border-[#edf0f3]'>
-      <div className='mx-auto w-[80vw] max-w-[1700px] px-0 py-4 md:py-6'>
+      <div className='mx-auto w-[80vw] max-w-[1700px] px-0 py-2 md:py-4'>
         <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
           <div className='relative h-[560px] sm:h-[620px] md:h-[760px] overflow-hidden'>
             {frameImage ? (
@@ -555,7 +555,7 @@ export default function HomeInterdisciplinary(props) {
 
           </div>
 
-          <div className='pt-2 md:pt-20 pr-2 md:pr-10 space-y-6 md:space-y-12'>
+          <div className='max-w-[640px] pt-2 md:pt-12 pr-2 md:pr-10 space-y-6 md:space-y-10'>
             {showIntroTitle && (
               <h1
                 className='font-normal text-black leading-tight'
@@ -564,8 +564,8 @@ export default function HomeInterdisciplinary(props) {
               </h1>
             )}
             <div
-              className='text-black/90 leading-[1.8] space-y-4'
-              style={{ fontSize: `clamp(17px, 2.3vw, ${bodyFontSize}px)` }}
+              className='text-black/90 leading-[1.55] space-y-4'
+              style={{ fontSize: `clamp(16px, 1.25vw, ${bodyFontSize}px)` }}
               dangerouslySetInnerHTML={{ __html: introBody }}
             />
             {siteConfig('BIO') && siteConfig('BIO') !== signatureText && (
@@ -579,15 +579,15 @@ export default function HomeInterdisciplinary(props) {
               <LazyImage
                 src={rightLogoImage}
                 alt='envis-precisely-logo'
-                className='w-[220px] max-w-full h-auto object-contain pt-2'
-              />
-            )}
+              className='w-[270px] max-w-full h-auto object-contain pt-2'
+            />
+          )}
 
           </div>
         </div>
 
         {bottomArtImage && (
-          <div className='-mt-16 md:-mt-24'>
+          <div className='-mt-28 md:-mt-40'>
             <LazyImage
               src={bottomArtImage}
               alt='home-bottom-art'
