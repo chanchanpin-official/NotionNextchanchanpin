@@ -3,6 +3,7 @@ import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import CONFIG from '../config'
+import defaultMainLayer from '@/pages/pcl/envis logo.png'
 import defaultGroundLayer from '@/pages/pcl/底部图.png'
 import defaultArchitectureLayer from '@/pages/pcl/Architecture.png'
 import defaultVisualLayer from '@/pages/pcl/Visual Design.png'
@@ -191,7 +192,8 @@ export default function HomeInterdisciplinary(props) {
     siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG) || defaultIntroHtml
   const signatureText = siteConfig('SIMPLE_HOME_SIGNATURE_TEXT', null, CONFIG)
   const frameImage = siteConfig('SIMPLE_HOME_FRAME_IMAGE', null, CONFIG)
-  const layerMainImage = siteConfig('SIMPLE_HOME_LAYER_MAIN_IMAGE', null, CONFIG)
+  const layerMainImage =
+    siteConfig('SIMPLE_HOME_LAYER_MAIN_IMAGE', null, CONFIG) || defaultMainLayer.src
   const layerGroundImage = siteConfig('SIMPLE_HOME_LAYER_GROUND_IMAGE', null, CONFIG)
   const layerArchitectureImage = siteConfig(
     'SIMPLE_HOME_LAYER_ARCHITECTURE_IMAGE',
@@ -288,7 +290,19 @@ export default function HomeInterdisciplinary(props) {
       label: 'IxD',
       node: visualNodes.ixd,
       className:
-        'left-[38%] top-[37%] w-[28%] h-[30%] rounded-full'
+        'left-[34%] top-[49%] w-[30%] h-[31%] rounded-full'
+    },
+    {
+      label: 'UX',
+      node: visualNodes.ux,
+      className:
+        'left-[24%] top-[56%] w-[30%] h-[31%] rounded-full'
+    },
+    {
+      label: 'Service Design',
+      node: visualNodes.service,
+      className:
+        'left-[10%] top-[57%] w-[52%] h-[30%] rounded-[45%]'
     }
   ].filter(item => item.node)
 
@@ -316,63 +330,63 @@ export default function HomeInterdisciplinary(props) {
     <section className='relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FAFAFA] border-t border-[#edf0f3] mb-10'>
       <div className='mx-auto max-w-[1700px] px-0 md:px-0 py-10 md:py-16'>
         <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
-          <div className='relative h-[520px] sm:h-[580px] md:h-[700px]'>
+          <div className='relative h-[560px] sm:h-[620px] md:h-[760px] overflow-hidden'>
             {hasLayerMode ? (
               <>
                 {layerMainImage && (
                   <LazyImage
                     src={layerMainImage}
                     alt='discipline-main-layer'
-                    className='absolute left-[6%] top-[6%] w-[88%] h-[64%] object-contain'
+                    className='absolute left-[2%] top-[20%] w-[22%] h-[10%] object-contain'
                   />
                 )}
                 {layerGroundImage && (
                   <LazyImage
                     src={layerGroundImage}
                     alt='discipline-ground-layer'
-                    className='absolute left-[25%] top-[70%] w-[56%] h-[24%] object-contain'
+                    className='absolute left-[23%] top-[85%] w-[58%] h-[14%] object-contain'
                   />
                 )}
                 {layerArchitectureImage && (
                   <LazyImage
                     src={layerArchitectureImage}
                     alt='discipline-architecture-layer'
-                    className='absolute left-[38%] top-[8%] w-[20%] h-[48%] object-contain'
+                    className='absolute left-[37%] top-[9%] w-[20%] h-[43%] object-contain'
                   />
                 )}
                 {layerVisualImage && (
                   <LazyImage
                     src={layerVisualImage}
                     alt='discipline-visual-layer'
-                    className='absolute left-[10%] top-[37%] w-[37%] h-[25%] object-contain'
+                    className='absolute left-[11%] top-[36%] w-[34%] h-[24%] object-contain'
                   />
                 )}
                 {layerHciImage && (
                   <LazyImage
                     src={layerHciImage}
                     alt='discipline-hci-layer'
-                    className='absolute left-[58%] top-[43%] w-[36%] h-[23%] object-contain'
+                    className='absolute left-[56%] top-[45%] w-[34%] h-[22%] object-contain'
                   />
                 )}
                 {layerServiceImage && (
                   <LazyImage
                     src={layerServiceImage}
                     alt='discipline-service-layer'
-                    className='absolute left-[6%] top-[54%] w-[56%] h-[35%] object-contain'
+                    className='absolute left-[10%] top-[57%] w-[52%] h-[30%] object-contain'
                   />
                 )}
                 {layerUxImage && (
                   <LazyImage
                     src={layerUxImage}
                     alt='discipline-ux-layer'
-                    className='absolute left-[28%] top-[50%] w-[30%] h-[30%] object-contain'
+                    className='absolute left-[24%] top-[56%] w-[30%] h-[31%] object-contain'
                   />
                 )}
                 {layerIxdImage && (
                   <LazyImage
                     src={layerIxdImage}
                     alt='discipline-ixd-layer'
-                    className='absolute left-[36%] top-[47%] w-[28%] h-[28%] object-contain'
+                    className='absolute left-[34%] top-[49%] w-[30%] h-[31%] object-contain'
                   />
                 )}
               </>
