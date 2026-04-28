@@ -496,7 +496,6 @@ export default function HomeInterdisciplinary(props) {
                   style={{
                     left: `${position.left}%`,
                     top: `${position.top}%`,
-                    transform: 'translate(-50%, -50%)',
                     fontSize: `${mapFontSize}px`
                   }}>
                   {item.label}
