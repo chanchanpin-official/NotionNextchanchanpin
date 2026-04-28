@@ -291,6 +291,28 @@ export default function HomeInterdisciplinary(props) {
       return { ...spot, node, index }
     })
     .filter(Boolean)
+  const activeClickableItems = hotspotNodes.length ? hotspotNodes : clickableGroups
+  const resolveLabelPosition = item => {
+    if (item?.labelLeft !== undefined && item?.labelTop !== undefined) {
+      return { left: item.labelLeft, top: item.labelTop }
+    }
+
+    if (
+      item?.textLeft !== undefined &&
+      item?.textTop !== undefined &&
+      item?.left !== undefined &&
+      item?.top !== undefined &&
+      item?.width !== undefined &&
+      item?.height !== undefined
+    ) {
+      return {
+        left: item.left + (item.width * item.textLeft) / 100,
+        top: item.top + (item.height * item.textTop) / 100
+      }
+    }
+
+    return null
+  }
   const hasLayerMode =
     layerMainImage ||
     layerGroundImage ||
@@ -432,7 +454,7 @@ export default function HomeInterdisciplinary(props) {
               </svg>
             )}
 
-            {(hotspotNodes.length ? hotspotNodes : clickableGroups).map(
+            {activeClickableItems.map(
               (item, index) => {
                 const style = item.left !== undefined
                   ? {
@@ -449,19 +471,37 @@ export default function HomeInterdisciplinary(props) {
                     href={item.node.href}
                     className={`absolute flex items-center justify-center text-center hover:brightness-95 transition-all duration-200 ${item.className || ''}`}
                     style={style}>
-                    <span
-                      className={`leading-none text-black/85 whitespace-nowrap ${item.textLeft !== undefined ? 'absolute' : ''}`}
-                      style={{
-                        fontSize: `${mapFontSize}px`,
-                        left: item.textLeft !== undefined ? `${item.textLeft}%` : undefined,
-                        top: item.textTop !== undefined ? `${item.textTop}%` : undefined
-                      }}>
-                      {item.label}
-                    </span>
+                    {resolveLabelPosition(item) ? null : (
+                      <span
+                        className='leading-none text-black/85 whitespace-nowrap'
+                        style={{ fontSize: `${mapFontSize}px` }}>
+                        {item.label}
+                      </span>
+                    )}
                   </SmartLink>
                 )
               }
             )}
+
+            {activeClickableItems.map((item, index) => {
+              const position = resolveLabelPosition(item)
+              if (!position) return null
+
+              return (
+                <SmartLink
+                  key={`label-${item.node.name}-${item.index ?? index}`}
+                  href={item.node.href}
+                  className='absolute leading-none text-black/85 whitespace-nowrap hover:brightness-95 transition-all duration-200'
+                  style={{
+                    left: `${position.left}%`,
+                    top: `${position.top}%`,
+                    transform: 'translate(-50%, -50%)',
+                    fontSize: `${mapFontSize}px`
+                  }}>
+                  {item.label}
+                </SmartLink>
+              )
+            })}
 
             {!frameImage && !hasLayerMode && (
               <div
