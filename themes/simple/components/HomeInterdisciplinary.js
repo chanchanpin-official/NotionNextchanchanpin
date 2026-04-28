@@ -148,6 +148,17 @@ function parseLayerPlacements(rawValue = '') {
   }
 }
 
+function parseLayerZIndex(rawValue = '') {
+  if (!rawValue) return null
+  try {
+    const parsed = JSON.parse(rawValue)
+    if (!parsed || typeof parsed !== 'object') return null
+    return parsed
+  } catch (error) {
+    return null
+  }
+}
+
 export default function HomeInterdisciplinary(props) {
   const { locale } = useGlobal()
   const { customMenu, customNav } = props
@@ -331,12 +342,28 @@ export default function HomeInterdisciplinary(props) {
     ...defaultLayerPlacements,
     ...(layerPlacementsConfig || {})
   }
+  const defaultLayerZIndex = {
+    service: 10,
+    ux: 20,
+    visualDesign: 30,
+    architecture: 40,
+    hci: 50,
+    ixd: 60
+  }
+  const layerZIndexConfig = parseLayerZIndex(
+    siteConfig('SIMPLE_HOME_LAYER_Z_INDEX', null, CONFIG)
+  )
+  const layerZIndex = {
+    ...defaultLayerZIndex,
+    ...(layerZIndexConfig || {})
+  }
 
-  const toPlacementStyle = placement => ({
+  const toPlacementStyle = (placement, key) => ({
     left: `${placement.left}%`,
     top: `${placement.top}%`,
     width: `${placement.width}%`,
-    height: `${placement.height}%`
+    height: `${placement.height}%`,
+    zIndex: layerZIndex[key]
   })
 
   const hotspotNodes = hotspots
@@ -391,48 +418,48 @@ export default function HomeInterdisciplinary(props) {
                   <LazyImage
                     src={layerArchitectureImage}
                     alt='discipline-architecture-layer'
-                    className='absolute object-contain z-30'
-                    style={toPlacementStyle(layerPlacements.architecture)}
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.architecture, 'architecture')}
                   />
                 )}
                 {layerVisualImage && (
                   <LazyImage
                     src={layerVisualImage}
                     alt='discipline-visual-layer'
-                    className='absolute object-contain z-20'
-                    style={toPlacementStyle(layerPlacements.visualDesign)}
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.visualDesign, 'visualDesign')}
                   />
                 )}
                 {layerHciImage && (
                   <LazyImage
                     src={layerHciImage}
                     alt='discipline-hci-layer'
-                    className='absolute object-contain z-30'
-                    style={toPlacementStyle(layerPlacements.hci)}
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.hci, 'hci')}
                   />
                 )}
                 {layerServiceImage && (
                   <LazyImage
                     src={layerServiceImage}
                     alt='discipline-service-layer'
-                    className='absolute object-contain z-10'
-                    style={toPlacementStyle(layerPlacements.service)}
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.service, 'service')}
                   />
                 )}
                 {layerUxImage && (
                   <LazyImage
                     src={layerUxImage}
                     alt='discipline-ux-layer'
-                    className='absolute object-contain z-[15]'
-                    style={toPlacementStyle(layerPlacements.ux)}
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.ux, 'ux')}
                   />
                 )}
                 {layerIxdImage && (
                   <LazyImage
                     src={layerIxdImage}
                     alt='discipline-ixd-layer'
-                    className='absolute object-contain z-40'
-                    style={toPlacementStyle(layerPlacements.ixd)}
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.ixd, 'ixd')}
                   />
                 )}
               </>
