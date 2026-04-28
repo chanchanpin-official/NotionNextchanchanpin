@@ -188,12 +188,14 @@ export default function HomeInterdisciplinary(props) {
   )
   const introTitle =
     siteConfig('SIMPLE_HOME_TITLE_TEXT', null, CONFIG) || siteConfig('AUTHOR')
+  const showIntroTitle =
+    String(siteConfig('SIMPLE_HOME_SHOW_TITLE', null, CONFIG) || '').toLowerCase() ===
+    'true'
   const introBody =
     siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG) || defaultIntroHtml
   const signatureText = siteConfig('SIMPLE_HOME_SIGNATURE_TEXT', null, CONFIG)
   const frameImage = siteConfig('SIMPLE_HOME_FRAME_IMAGE', null, CONFIG)
-  const layerMainImage =
-    siteConfig('SIMPLE_HOME_LAYER_MAIN_IMAGE', null, CONFIG) || defaultMainLayer.src
+  const layerMainImage = siteConfig('SIMPLE_HOME_LAYER_MAIN_IMAGE', null, CONFIG)
   const layerGroundImage = siteConfig('SIMPLE_HOME_LAYER_GROUND_IMAGE', null, CONFIG)
   const layerArchitectureImage = siteConfig(
     'SIMPLE_HOME_LAYER_ARCHITECTURE_IMAGE',
@@ -220,6 +222,8 @@ export default function HomeInterdisciplinary(props) {
   const leftPng = siteConfig('SIMPLE_HOME_LEFT_PNG', null, CONFIG)
   const bottomPng = siteConfig('SIMPLE_HOME_BOTTOM_PNG', null, CONFIG)
   const bottomArtImage = bottomPng || defaultGroundLayer.src
+  const rightLogoImage =
+    siteConfig('SIMPLE_HOME_RIGHT_LOGO_IMAGE', null, CONFIG) || defaultMainLayer.src
   const mapFontSize = Number(siteConfig('SIMPLE_HOME_MAP_FONT_SIZE', null, CONFIG)) || 18
   const titleFontSize = Number(siteConfig('SIMPLE_HOME_TITLE_FONT_SIZE', null, CONFIG)) || 56
   const bodyFontSize = Number(siteConfig('SIMPLE_HOME_BODY_FONT_SIZE', null, CONFIG)) || 24
@@ -306,6 +310,23 @@ export default function HomeInterdisciplinary(props) {
     }
   ].filter(item => item.node)
 
+  const layerScale = Number(siteConfig('SIMPLE_HOME_LAYER_SCALE', null, CONFIG)) || 0.95
+  const layerPlacements = {
+    architecture: { left: 35, top: 6, width: (150 / 1000) * 100 * layerScale, height: (290 / 760) * 100 * layerScale },
+    visualDesign: { left: 8, top: 33, width: (269 / 1000) * 100 * layerScale, height: (219 / 760) * 100 * layerScale },
+    hci: { left: 57, top: 38, width: (265 / 1000) * 100 * layerScale, height: (171 / 760) * 100 * layerScale },
+    ixd: { left: 29, top: 40, width: (255 / 1000) * 100 * layerScale, height: (255 / 760) * 100 * layerScale },
+    ux: { left: 16, top: 30, width: (342 / 1000) * 100 * layerScale, height: (343 / 760) * 100 * layerScale },
+    service: { left: 2, top: 18, width: (661 / 1000) * 100 * layerScale, height: (625 / 760) * 100 * layerScale }
+  }
+
+  const toPlacementStyle = placement => ({
+    left: `${placement.left}%`,
+    top: `${placement.top}%`,
+    width: `${placement.width}%`,
+    height: `${placement.height}%`
+  })
+
   const hotspotNodes = hotspots
     .map((spot, index) => {
       const node =
@@ -337,7 +358,7 @@ export default function HomeInterdisciplinary(props) {
                   <LazyImage
                     src={layerMainImage}
                     alt='discipline-main-layer'
-                    className='absolute left-[2%] top-[20%] w-[22%] h-[10%] object-contain'
+                    className='absolute left-[2%] top-[18%] w-[18%] h-[9%] object-contain'
                   />
                 )}
                 {layerGroundImage && (
@@ -351,42 +372,48 @@ export default function HomeInterdisciplinary(props) {
                   <LazyImage
                     src={layerArchitectureImage}
                     alt='discipline-architecture-layer'
-                    className='absolute left-[37%] top-[9%] w-[20%] h-[43%] object-contain'
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.architecture)}
                   />
                 )}
                 {layerVisualImage && (
                   <LazyImage
                     src={layerVisualImage}
                     alt='discipline-visual-layer'
-                    className='absolute left-[11%] top-[36%] w-[34%] h-[24%] object-contain'
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.visualDesign)}
                   />
                 )}
                 {layerHciImage && (
                   <LazyImage
                     src={layerHciImage}
                     alt='discipline-hci-layer'
-                    className='absolute left-[56%] top-[45%] w-[34%] h-[22%] object-contain'
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.hci)}
                   />
                 )}
                 {layerServiceImage && (
                   <LazyImage
                     src={layerServiceImage}
                     alt='discipline-service-layer'
-                    className='absolute left-[10%] top-[57%] w-[52%] h-[30%] object-contain'
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.service)}
                   />
                 )}
                 {layerUxImage && (
                   <LazyImage
                     src={layerUxImage}
                     alt='discipline-ux-layer'
-                    className='absolute left-[24%] top-[56%] w-[30%] h-[31%] object-contain'
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.ux)}
                   />
                 )}
                 {layerIxdImage && (
                   <LazyImage
                     src={layerIxdImage}
                     alt='discipline-ixd-layer'
-                    className='absolute left-[34%] top-[49%] w-[30%] h-[31%] object-contain'
+                    className='absolute object-contain'
+                    style={toPlacementStyle(layerPlacements.ixd)}
                   />
                 )}
               </>
@@ -496,22 +523,31 @@ export default function HomeInterdisciplinary(props) {
           </div>
 
           <div className='pt-2 md:pt-20 pr-2 md:pr-10 space-y-6 md:space-y-12'>
-            <h1
-              className='font-normal text-black leading-tight'
-              style={{ fontSize: `clamp(36px, 6vw, ${titleFontSize}px)` }}>
-              {introTitle}
-            </h1>
+            {showIntroTitle && (
+              <h1
+                className='font-normal text-black leading-tight'
+                style={{ fontSize: `clamp(36px, 6vw, ${titleFontSize}px)` }}>
+                {introTitle}
+              </h1>
+            )}
             <div
               className='text-black/90 leading-[1.8] space-y-4'
               style={{ fontSize: `clamp(17px, 2.3vw, ${bodyFontSize}px)` }}
               dangerouslySetInnerHTML={{ __html: introBody }}
             />
-            {siteConfig('BIO') && (
+            {siteConfig('BIO') && siteConfig('BIO') !== signatureText && (
               <p
                 className='text-black/70 leading-[1.7]'
                 style={{ fontSize: `clamp(16px, 2vw, ${bioFontSize}px)` }}>
                 {siteConfig('BIO')}
               </p>
+            )}
+            {rightLogoImage && (
+              <LazyImage
+                src={rightLogoImage}
+                alt='envis-precisely-logo'
+                className='w-[220px] max-w-full h-auto object-contain pt-2'
+              />
             )}
             {signatureText && (
               <div
