@@ -184,6 +184,26 @@ export default function HomeInterdisciplinary(props) {
     siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG) || defaultIntroHtml
   const signatureText = siteConfig('SIMPLE_HOME_SIGNATURE_TEXT', null, CONFIG)
   const frameImage = siteConfig('SIMPLE_HOME_FRAME_IMAGE', null, CONFIG)
+  const layerMainImage = siteConfig('SIMPLE_HOME_LAYER_MAIN_IMAGE', null, CONFIG)
+  const layerGroundImage = siteConfig('SIMPLE_HOME_LAYER_GROUND_IMAGE', null, CONFIG)
+  const layerArchitectureImage = siteConfig(
+    'SIMPLE_HOME_LAYER_ARCHITECTURE_IMAGE',
+    null,
+    CONFIG
+  )
+  const layerVisualImage = siteConfig(
+    'SIMPLE_HOME_LAYER_VISUAL_IMAGE',
+    null,
+    CONFIG
+  )
+  const layerHciImage = siteConfig('SIMPLE_HOME_LAYER_HCI_IMAGE', null, CONFIG)
+  const layerServiceImage = siteConfig(
+    'SIMPLE_HOME_LAYER_SERVICE_IMAGE',
+    null,
+    CONFIG
+  )
+  const layerUxImage = siteConfig('SIMPLE_HOME_LAYER_UX_IMAGE', null, CONFIG)
+  const layerIxdImage = siteConfig('SIMPLE_HOME_LAYER_IXD_IMAGE', null, CONFIG)
   const hotspotsConfigRaw = siteConfig('SIMPLE_HOME_HOTSPOTS', null, CONFIG)
   const leftPng = siteConfig('SIMPLE_HOME_LEFT_PNG', null, CONFIG)
   const bottomPng = siteConfig('SIMPLE_HOME_BOTTOM_PNG', null, CONFIG)
@@ -271,13 +291,81 @@ export default function HomeInterdisciplinary(props) {
       return { ...spot, node, index }
     })
     .filter(Boolean)
+  const hasLayerMode =
+    layerMainImage ||
+    layerGroundImage ||
+    layerArchitectureImage ||
+    layerVisualImage ||
+    layerHciImage ||
+    layerServiceImage ||
+    layerUxImage ||
+    layerIxdImage
 
   return (
     <section className='relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FAFAFA] border-t border-[#edf0f3] mb-10'>
       <div className='mx-auto max-w-[1700px] px-0 md:px-0 py-10 md:py-16'>
         <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
           <div className='relative h-[620px] md:h-[760px]'>
-            {frameImage ? (
+            {hasLayerMode ? (
+              <>
+                {layerMainImage && (
+                  <LazyImage
+                    src={layerMainImage}
+                    alt='discipline-main-layer'
+                    className='absolute left-[6%] top-[6%] w-[88%] h-[64%] object-contain'
+                  />
+                )}
+                {layerGroundImage && (
+                  <LazyImage
+                    src={layerGroundImage}
+                    alt='discipline-ground-layer'
+                    className='absolute left-[25%] top-[70%] w-[56%] h-[24%] object-contain'
+                  />
+                )}
+                {layerArchitectureImage && (
+                  <LazyImage
+                    src={layerArchitectureImage}
+                    alt='discipline-architecture-layer'
+                    className='absolute left-[38%] top-[8%] w-[20%] h-[48%] object-contain'
+                  />
+                )}
+                {layerVisualImage && (
+                  <LazyImage
+                    src={layerVisualImage}
+                    alt='discipline-visual-layer'
+                    className='absolute left-[10%] top-[37%] w-[37%] h-[25%] object-contain'
+                  />
+                )}
+                {layerHciImage && (
+                  <LazyImage
+                    src={layerHciImage}
+                    alt='discipline-hci-layer'
+                    className='absolute left-[58%] top-[43%] w-[36%] h-[23%] object-contain'
+                  />
+                )}
+                {layerServiceImage && (
+                  <LazyImage
+                    src={layerServiceImage}
+                    alt='discipline-service-layer'
+                    className='absolute left-[6%] top-[54%] w-[56%] h-[35%] object-contain'
+                  />
+                )}
+                {layerUxImage && (
+                  <LazyImage
+                    src={layerUxImage}
+                    alt='discipline-ux-layer'
+                    className='absolute left-[28%] top-[50%] w-[30%] h-[30%] object-contain'
+                  />
+                )}
+                {layerIxdImage && (
+                  <LazyImage
+                    src={layerIxdImage}
+                    alt='discipline-ixd-layer'
+                    className='absolute left-[36%] top-[47%] w-[28%] h-[28%] object-contain'
+                  />
+                )}
+              </>
+            ) : frameImage ? (
               <LazyImage
                 src={frameImage}
                 alt='discipline-frame'
@@ -371,7 +459,7 @@ export default function HomeInterdisciplinary(props) {
               }
             )}
 
-            {!frameImage && (
+            {!frameImage && !hasLayerMode && (
               <div
                 className='absolute left-[46%] top-[57%] text-black/70'
                 style={{ fontSize: `${Math.max(18, mapFontSize - 2)}px` }}>
