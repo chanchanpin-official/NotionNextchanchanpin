@@ -137,6 +137,17 @@ function parseHotspots(rawValue = '') {
   }
 }
 
+function parseLayerPlacements(rawValue = '') {
+  if (!rawValue) return null
+  try {
+    const parsed = JSON.parse(rawValue)
+    if (!parsed || typeof parsed !== 'object') return null
+    return parsed
+  } catch (error) {
+    return null
+  }
+}
+
 export default function HomeInterdisciplinary(props) {
   const { locale } = useGlobal()
   const { customMenu, customNav } = props
@@ -181,15 +192,13 @@ export default function HomeInterdisciplinary(props) {
     sourceLinks = fallbackLinks.concat(customNav)
   }
 
-  const centerLabel = siteConfig(
-    'SIMPLE_HOME_INTERDISCIPLINARY_CENTER',
-    null,
-    CONFIG
-  )
   const introTitle =
     siteConfig('SIMPLE_HOME_TITLE_TEXT', null, CONFIG) || siteConfig('AUTHOR')
   const showIntroTitle =
     String(siteConfig('SIMPLE_HOME_SHOW_TITLE', null, CONFIG) || '').toLowerCase() ===
+    'true'
+  const showSignature =
+    String(siteConfig('SIMPLE_HOME_SHOW_SIGNATURE', null, CONFIG) || '').toLowerCase() ===
     'true'
   const introBody =
     siteConfig('SIMPLE_HOME_INTRO_HTML', null, CONFIG) || defaultIntroHtml
@@ -224,9 +233,9 @@ export default function HomeInterdisciplinary(props) {
   const bottomArtImage = bottomPng || defaultGroundLayer.src
   const rightLogoImage =
     siteConfig('SIMPLE_HOME_RIGHT_LOGO_IMAGE', null, CONFIG) || defaultMainLayer.src
-  const mapFontSize = Number(siteConfig('SIMPLE_HOME_MAP_FONT_SIZE', null, CONFIG)) || 18
-  const titleFontSize = Number(siteConfig('SIMPLE_HOME_TITLE_FONT_SIZE', null, CONFIG)) || 56
   const bodyFontSize = Number(siteConfig('SIMPLE_HOME_BODY_FONT_SIZE', null, CONFIG)) || 24
+  const mapFontSize = Number(siteConfig('SIMPLE_HOME_MAP_FONT_SIZE', null, CONFIG)) || bodyFontSize
+  const titleFontSize = Number(siteConfig('SIMPLE_HOME_TITLE_FONT_SIZE', null, CONFIG)) || 56
   const bioFontSize = Number(siteConfig('SIMPLE_HOME_BIO_FONT_SIZE', null, CONFIG)) || 20
   const preferredSubmenuParent = siteConfig(
     'SIMPLE_HOME_SUBMENU_PARENT',
@@ -311,13 +320,20 @@ export default function HomeInterdisciplinary(props) {
   ].filter(item => item.node)
 
   const layerScale = Number(siteConfig('SIMPLE_HOME_LAYER_SCALE', null, CONFIG)) || 0.95
-  const layerPlacements = {
+  const defaultLayerPlacements = {
     architecture: { left: 35, top: 6, width: (150 / 1000) * 100 * layerScale, height: (290 / 760) * 100 * layerScale },
     visualDesign: { left: 8, top: 33, width: (269 / 1000) * 100 * layerScale, height: (219 / 760) * 100 * layerScale },
     hci: { left: 57, top: 38, width: (265 / 1000) * 100 * layerScale, height: (171 / 760) * 100 * layerScale },
     ixd: { left: 29, top: 40, width: (255 / 1000) * 100 * layerScale, height: (255 / 760) * 100 * layerScale },
     ux: { left: 16, top: 30, width: (342 / 1000) * 100 * layerScale, height: (343 / 760) * 100 * layerScale },
     service: { left: 2, top: 18, width: (661 / 1000) * 100 * layerScale, height: (625 / 760) * 100 * layerScale }
+  }
+  const layerPlacementsConfig = parseLayerPlacements(
+    siteConfig('SIMPLE_HOME_LAYER_PLACEMENTS', null, CONFIG)
+  )
+  const layerPlacements = {
+    ...defaultLayerPlacements,
+    ...(layerPlacementsConfig || {})
   }
 
   const toPlacementStyle = placement => ({
@@ -349,10 +365,16 @@ export default function HomeInterdisciplinary(props) {
 
   return (
     <section className='relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FAFAFA] border-t border-[#edf0f3] mb-10'>
-      <div className='mx-auto max-w-[1700px] px-0 md:px-0 py-10 md:py-16'>
+      <div className='mx-auto w-[80vw] max-w-[1700px] px-0 py-10 md:py-16'>
         <div className='grid grid-cols-1 lg:grid-cols-[58%_42%] gap-8 lg:gap-12 items-start'>
           <div className='relative h-[560px] sm:h-[620px] md:h-[760px] overflow-hidden'>
-            {hasLayerMode ? (
+            {frameImage ? (
+              <LazyImage
+                src={frameImage}
+                alt='discipline-frame'
+                className='absolute inset-0 w-full h-full object-contain'
+              />
+            ) : hasLayerMode ? (
               <>
                 {layerMainImage && (
                   <LazyImage
@@ -417,12 +439,6 @@ export default function HomeInterdisciplinary(props) {
                   />
                 )}
               </>
-            ) : frameImage ? (
-              <LazyImage
-                src={frameImage}
-                alt='discipline-frame'
-                className='absolute inset-0 w-full h-full object-contain'
-              />
             ) : leftPng ? (
               <LazyImage
                 src={leftPng}
@@ -513,13 +529,6 @@ export default function HomeInterdisciplinary(props) {
               }
             )}
 
-            {!frameImage && !hasLayerMode && (
-              <div
-                className='absolute left-[46%] top-[57%] text-black/70'
-                style={{ fontSize: `${Math.max(18, mapFontSize - 2)}px` }}>
-                {centerLabel}
-              </div>
-            )}
           </div>
 
           <div className='pt-2 md:pt-20 pr-2 md:pr-10 space-y-6 md:space-y-12'>
@@ -549,7 +558,7 @@ export default function HomeInterdisciplinary(props) {
                 className='w-[220px] max-w-full h-auto object-contain pt-2'
               />
             )}
-            {signatureText && (
+            {showSignature && signatureText && (
               <div
                 className='font-semibold tracking-tight text-black/75'
                 style={{ fontSize: `${Math.max(20, bioFontSize + 8)}px` }}>
