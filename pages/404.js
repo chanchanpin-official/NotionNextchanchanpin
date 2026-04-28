@@ -17,6 +17,11 @@ export async function getStaticProps(req) {
   const { locale } = req
 
   const props = (await fetchGlobalAllData({ from: '404', locale })) || {}
+  props.categoryOptions = Array.isArray(props.categoryOptions)
+    ? props.categoryOptions
+    : []
+  props.tagOptions = Array.isArray(props.tagOptions) ? props.tagOptions : []
+
   return { props }
 }
 
